@@ -12,3 +12,26 @@ const login = createAsyncThunk('users/login', async (user) => {
 
   return data;
 });
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState: {
+    user: null,
+  },
+  reducers: {
+  },
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (_, action) => {
+      if (action.payload && action.payload.user) {
+        return { ...action.payload.user, ...action.payload.token };
+      }
+      return action.payload;
+    });
+  },
+});
+
+export {
+  login,
+};
+
+export default userSlice.reducer;

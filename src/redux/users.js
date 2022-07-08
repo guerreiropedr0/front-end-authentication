@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { setCookie } from '../helper';
 
 const login = createAsyncThunk('users/login', async (user) => {
   const resp = await fetch('http://localhost:3000/api/login', {
@@ -21,7 +22,12 @@ const userSlice = createSlice({
   reducers: {
   },
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (_, action) => action.payload);
+    builder.addCase(login.fulfilled, (_, { payload }) => {
+      if (payload.user) {
+        setCookie('token', payload.token);
+      }
+      return payload;
+    });
   },
 });
 

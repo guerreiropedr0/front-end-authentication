@@ -1,13 +1,24 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/users';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const user = { username, password };
+
+    dispatch(login({ user }));
+  };
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
-    <form>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <div className="mb-3">
-        <label htmlFor="username" className="form-label">Email address</label>
+        <label htmlFor="username" className="form-label">Username</label>
         <input
           type="text"
           className="form-control"

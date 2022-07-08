@@ -21,12 +21,7 @@ const userSlice = createSlice({
   reducers: {
   },
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (_, action) => {
-      if (action.payload && action.payload.user) {
-        return { ...action.payload.user, ...action.payload.token };
-      }
-      return action.payload;
-    });
+    builder.addCase(login.fulfilled, (_, action) => action.payload);
   },
 });
 

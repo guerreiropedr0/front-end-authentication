@@ -12,7 +12,7 @@ const LoginForm = () => {
 
     const user = { username, password };
 
-    dispatch(login({ user }));
+    dispatch(login(user));
   };
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (

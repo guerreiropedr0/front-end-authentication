@@ -10,7 +10,13 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const user = { email, password };
+    const user = {
+      email,
+      password,
+      grant_type: 'password',
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      client_secret: process.env.REACT_APP_CLIENT_SECRET,
+    };
 
     dispatch(login(user));
   };

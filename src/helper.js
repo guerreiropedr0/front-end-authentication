@@ -6,6 +6,6 @@ export const setCookie = (name, value) => {
 };
 
 export const getCookie = () => {
-  if (!document.cookie.includes('token')) return null;
-  return document.cookie.split(';').filter((cookie) => cookie.includes('token'))[0].split('=')[1];
+  if (!document.cookie.includes('refresh_token')) return null;
+  return document.cookie.split(';').filter((cookie) => cookie.includes('refresh_token'))[0].split('=')[1];
 };

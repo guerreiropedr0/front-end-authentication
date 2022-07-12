@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getCookie, setCookie } from '../helper';
 
 const login = createAsyncThunk('users/login', async (user) => {
-  const resp = await fetch('http://localhost:3000/api/login', {
+  const resp = await fetch('http://localhost:3000/oauth/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -14,12 +14,21 @@ const login = createAsyncThunk('users/login', async (user) => {
   return data;
 });
 
-const autoLogin = createAsyncThunk('/auto-login', async () => {
-  const resp = await fetch('http://localhost:3000/api/auto-login', {
+const autoLogin = createAsyncThunk('users/autoLogin', async () => {
+  const token = getCookie();
+  const obj = {
+    grant_type: 'refresh_token',
+    refresh_token: token,
+    client_id: process.env.REACT_APP_CLIENT_ID,
+    client_secret: process.env.REACT_APP_CLIENT_SECRET,
+  };
+
+  const resp = await fetch('http://localhost:3000/oauth/token', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getCookie()}`,
     },
+    body: JSON.stringify(obj),
   });
   const data = await resp.json();
 
@@ -35,14 +44,14 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (_, { payload }) => {
-      if (payload.user) {
-        setCookie('token', payload.token);
+      if (payload.token) {
+        setCookie('refresh_token', payload.token.refresh_token);
       }
       return payload;
     });
     builder.addCase(autoLogin.fulfilled, (_, { payload }) => {
-      if (payload.user) {
-        setCookie('token', payload.token);
+      if (payload.token) {
+        setCookie('refresh_token', payload.token.refresh_token);
       }
       return payload;
     });

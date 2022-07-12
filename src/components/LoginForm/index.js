@@ -4,13 +4,13 @@ import { login } from '../../redux/users';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const user = { username, password };
+    const user = { email, password };
 
     dispatch(login(user));
   };
@@ -18,13 +18,13 @@ const LoginForm = () => {
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
       <div className="mb-3">
-        <label htmlFor="username" className="form-label">Username</label>
+        <label htmlFor="email" className="form-label">Email</label>
         <input
-          type="text"
+          type="email"
           className="form-control"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="mb-3">
